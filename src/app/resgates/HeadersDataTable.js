@@ -1,0 +1,92 @@
+export default [
+  {
+    text: 'Nome/Empresa',
+    value: 'nome',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Telefone Comercial',
+    value: 'telefone',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Celular',
+    value: 'celular',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Tipo de Cadastro',
+    value: 'tipo_cadastro',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'CPF/CNPJ',
+    value: 'documento',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Plano',
+    value: 'plano',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Status do Pagamento',
+    value: 'status_pagamento',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Status do Resgate',
+    value: 'status',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Resgate',
+    value: 'valor_em_reais',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Em espera',
+    value: 'em_espera',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Banco',
+    value: 'conta_bancaria.banco.nome_banco',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Tipo de Conta',
+    value: 'conta_bancaria.tipo_conta',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Agência',
+    value: 'conta_bancaria.agencia',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Número da Conta',
+    value: 'conta_bancaria.conta',
+    align: 'center',
+    sortable: false,
+  },
+  {
+    text: 'Ações',
+    value: 'action',
+    align: 'center',
+    sortable: false,
+  },
+];

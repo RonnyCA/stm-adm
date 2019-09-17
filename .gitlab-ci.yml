@@ -1,0 +1,72 @@
+stages:
+  - analysis
+  - build
+  - deploy
+
+sonarqube:
+  stage: analysis
+  image: ciricihq/gitlab-sonar-scanner
+  only:
+    - /^feature\/#\d+-.*/
+  variables:
+    SONAR_URL: http://sonar.uds.com.br:9000
+    SONAR_ANALYSIS_MODE: preview
+    UNIQUE_KEY_PROJECT: "br.com.uds.$CI_PROJECT_ID"
+  script:
+    - gitlab-sonar-scanner
+
+sonarqube-reports:
+  stage: analysis
+  image: ciricihq/gitlab-sonar-scanner
+  only:
+    - /^feature\/#\d+-.*/
+  variables:
+    SONAR_URL: http://sonar.uds.com.br:9000
+    SONAR_ANALYSIS_MODE: publish
+    UNIQUE_KEY_PROJECT: "br.com.uds.$CI_PROJECT_ID"
+  script:
+    - gitlab-sonar-scanner
+
+build:
+  image: node:alpine
+  stage: build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 8 hrs
+  only:
+    - tags
+    - /^release\/v\d+\.\d+\.\d+/
+  script:
+    - yarn && yarn build
+
+deploy-homologacao:
+  image: alpine
+  stage: deploy
+  environment: staging
+  dependencies:
+    - build
+  only:
+    - /^release\/v\d+\.\d+\.\d+/
+  before_script:
+    - apk add --update --no-cache openssh sshpass
+  script:
+    - sshpass -V
+    - export SSHPASS=$SSH_PRIVATE_KEY_HOMOLOGACAO
+    - sshpass -e scp -o StrictHostKeyChecking=no -r dist/. $SERVER_ADDRESS_HOMOLOGACAO
+
+deploy-producao:
+  image: alpine
+  stage: deploy
+  environment: staging
+  dependencies:
+    - build
+  only:
+    - tags
+  before_script:
+    - apk add --update --no-cache openssh sshpass
+  script:
+    - sshpass -V
+    - export SSHPASS=$SSH_PRIVATE_KEY_PRODUCAO
+    - sshpass -e scp -o StrictHostKeyChecking=no -r dist/. $SERVER_ADDRESS_PRODUCAO
+  when: manual
